@@ -9,24 +9,24 @@ import java.net.URLEncoder
 
 class ApiServiceImpl : ApiService {
 
-    val baseUrl = "http://openlibrary.org/search.json?"
+    val baseUrl = "https://openlibrary.org/search.json?"
     val generalQuery = "q="
     val titleQuery = "title="
     val authorQuery = "author="
 
     // makes a general search by keyword
-    override fun queryListOfDocuments(query: String): DocumentList {
+    override suspend fun queryListOfDocuments(query: String): DocumentList {
         val response = sendGetRequest(URL("$baseUrl$generalQuery${URLEncoder.encode(query, "UTF-8")}"))
         return DocumentList(response)
     }
 
     // makes a search using a book title
-    override fun titleListOfDocuments(query: String): DocumentList {
+    override suspend fun titleListOfDocuments(query: String): DocumentList {
         val response = sendGetRequest(URL("$baseUrl$titleQuery${URLEncoder.encode(query, "UTF-8")}"))
         return DocumentList(response)
     }
     // makes a search using an author name
-    override fun authorListOfDocuments(query: String): DocumentList {
+    override suspend fun authorListOfDocuments(query: String): DocumentList {
         val response = sendGetRequest(URL("$baseUrl$authorQuery${URLEncoder.encode(query, "UTF-8")}"))
         return DocumentList(response)
     }

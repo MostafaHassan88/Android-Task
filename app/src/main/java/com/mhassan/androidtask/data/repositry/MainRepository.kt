@@ -1,10 +1,22 @@
 package com.mhassan.testapp.data.repositry
 
+import com.mhassan.androidtask.data.model.DocumentList
 import com.mhassan.testapp.data.api.ApiHelper
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class MainRepository(private val apiHelper: ApiHelper) {
-    fun getProducts(): Single<CityList> {
-        return apiHelper.getProducts()
+
+    suspend fun queryListOfDocuments(query: String): DocumentList {
+        return apiHelper.queryListOfDocuments(query)
+    }
+
+    suspend fun authorListOfDocuments(query: String): DocumentList {
+        return apiHelper.authorListOfDocuments(query)
+    }
+
+    suspend fun titleListOfDocuments(query: String): DocumentList {
+        return apiHelper.titleListOfDocuments(query)
     }
 }
