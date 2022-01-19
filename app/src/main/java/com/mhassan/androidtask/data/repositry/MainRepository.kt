@@ -11,12 +11,4 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun queryListOfDocuments(query: String): DocumentList {
         return apiHelper.queryListOfDocuments(query)
     }
-
-    suspend fun authorListOfDocuments(query: String): DocumentList {
-        return apiHelper.authorListOfDocuments(query)
-    }
-
-    suspend fun titleListOfDocuments(query: String): DocumentList {
-        return apiHelper.titleListOfDocuments(query)
-    }
 }

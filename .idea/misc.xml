@@ -7,6 +7,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10260416666666666" />
         <entry key="app/src/main/res/layout/document_cell.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/error_dialog.xml" value="0.11666666666666667" />
+        <entry key="app/src/main/res/layout/fragment_document_details.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_document_list.xml" value="0.11666666666666667" />
+        <entry key="app/src/main/res/layout/isbn_cell.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.11666666666666667" />
       </map>
     </option>

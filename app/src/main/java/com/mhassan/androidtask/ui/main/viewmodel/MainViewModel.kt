@@ -6,14 +6,23 @@ import com.mhassan.testapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import java.io.IOException
 import androidx.lifecycle.*
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.w3c.dom.Document
+import java.net.URLEncoder
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val documents = MutableLiveData<Resource<DocumentList>>()
-
+    lateinit var lastLoadedDocument : DocumentList
+    var latestQuery: String = "q=${URLEncoder.encode("lord of the rings", "UTF-8")}"
     init {
-        fetchDocumentsByQuery("lord of the rings")
+        // load random query to populate the list view with data
+        fetchDocumentsByQuery(latestQuery)
+    }
+
+    fun reloadLatestQuery(){
+        fetchDocumentsByQuery(latestQuery)
     }
 
      fun fetchDocumentsByQuery(query: String) {
@@ -21,36 +30,8 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         // run the following enclosed code on a bg thread
          viewModelScope.launch(Dispatchers.IO) {
             try {
-                val documentList = mainRepository.queryListOfDocuments(query)
-                documents.postValue(Resource.success(documentList))
-            } catch (ex: IOException) {
-                ex.printStackTrace()
-                documents.postValue(Resource.error("Something Went Wrong", null))
-            }
-        }
-    }
-
-    suspend fun fetchDocumentsByAuthor(query: String) {
-        documents.postValue(Resource.loading(null))
-        // run the following enclosed code on a bg thread
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val documentList = mainRepository.authorListOfDocuments(query)
-                documents.postValue(Resource.success(documentList))
-            } catch (ex: IOException) {
-                ex.printStackTrace()
-                documents.postValue(Resource.error("Something Went Wrong", null))
-            }
-        }
-    }
-
-    suspend fun fetchDocumentsByTitle(query: String) {
-        documents.postValue(Resource.loading(null))
-        // run the following enclosed code on a bg thread
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val documentList = mainRepository.titleListOfDocuments(query)
-                documents.postValue(Resource.success(documentList))
+                lastLoadedDocument = mainRepository.queryListOfDocuments(query)
+                documents.postValue(Resource.success(lastLoadedDocument))
             } catch (ex: IOException) {
                 ex.printStackTrace()
                 documents.postValue(Resource.error("Something Went Wrong", null))

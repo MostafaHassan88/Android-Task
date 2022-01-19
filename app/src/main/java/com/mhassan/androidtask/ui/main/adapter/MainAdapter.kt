@@ -6,16 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mhassan.androidtask.databinding.DocumentCellBinding
+import com.mhassan.androidtask.ui.main.activities.MainActivity
 import com.mhassan.testapp.data.model.Document
 
 class MainAdapter(
+    private var mainActivity: MainActivity,
     private var documents: List<Document>,
 ) : RecyclerView.Adapter<MainAdapter.ProductViewHolder>() {
 
     class ProductViewHolder(b: DocumentCellBinding) : RecyclerView.ViewHolder(b.getRoot()) {
         var binding: DocumentCellBinding = b
 
-        fun bind(document: Document) {
+        fun bind(mainActivity: MainActivity, document: Document, position: Int) {
             binding.txtBookTitle.text = document.title
             if(document.authorName != null){
                 binding.txtBookAuthor.text = document.authorName!!.joinToString(", ")
@@ -24,9 +26,7 @@ class MainAdapter(
             }
 
             binding.root.setOnClickListener{
-//                val intent = Intent(binding.root.context, ProductDescriptionActivity::class.java)
-//                intent.putExtra("document_details", document.toString())
-//                binding.root.context.startActivity(intent)
+                mainActivity.loadDetailsFragment(position)
             }
         }
     }
@@ -37,7 +37,7 @@ class MainAdapter(
     override fun getItemCount(): Int = documents.size
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) =
-        holder.bind(documents[position])
+        holder.bind(mainActivity, documents[position], position)
 
     fun setData(list: List<Document>) {
         documents = list
