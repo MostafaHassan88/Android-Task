@@ -9,13 +9,29 @@ import java.net.URLEncoder
 
 class ApiServiceImpl : ApiService {
 
-    val searchUrl = "http://openlibrary.org/search.json?q="
+    val baseUrl = "http://openlibrary.org/search.json?"
+    val generalQuery = "q="
+    val titleQuery = "title="
+    val authorQuery = "author="
 
-    override fun getListOfDocuments(query: String): DocumentList {
-        val response = sendGetRequest(URL("$searchUrl${URLEncoder.encode(query, "UTF-8")}"))
+    // makes a general search by keyword
+    override fun queryListOfDocuments(query: String): DocumentList {
+        val response = sendGetRequest(URL("$baseUrl$generalQuery${URLEncoder.encode(query, "UTF-8")}"))
         return DocumentList(response)
     }
 
+    // makes a search using a book title
+    override fun titleListOfDocuments(query: String): DocumentList {
+        val response = sendGetRequest(URL("$baseUrl$titleQuery${URLEncoder.encode(query, "UTF-8")}"))
+        return DocumentList(response)
+    }
+    // makes a search using an author name
+    override fun authorListOfDocuments(query: String): DocumentList {
+        val response = sendGetRequest(URL("$baseUrl$authorQuery${URLEncoder.encode(query, "UTF-8")}"))
+        return DocumentList(response)
+    }
+
+    // Method Used for all get Requests
     private fun sendGetRequest(mURL:URL) : String {
         with(mURL.openConnection() as HttpURLConnection) {
             requestMethod = "GET"
